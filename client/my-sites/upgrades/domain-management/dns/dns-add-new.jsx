@@ -30,7 +30,6 @@ import { successNotice } from 'state/notices/actions';
 
 const DnsAddNew = React.createClass( {
 	propTypes: {
-		isSubmittingForm: React.PropTypes.bool.isRequired,
 		selectedDomainName: React.PropTypes.string.isRequired
 	},
 
@@ -74,7 +73,7 @@ const DnsAddNew = React.createClass( {
 	},
 
 	setFormState( fields ) {
-		this.setState( { fields: fields } );
+		this.setState( { fields } );
 	},
 
 	onAddDnsRecord( event ) {
@@ -94,6 +93,7 @@ const DnsAddNew = React.createClass( {
 				formState.getAllFieldValues( this.state.fields ),
 				this.props.selectedDomainName
 			);
+			this.formStateController.resetFields( this.getInitialFields() );
 
 			upgradesActions.addDns( this.props.selectedDomainName, normalizedData, ( error ) => {
 				if ( error ) {
@@ -101,7 +101,6 @@ const DnsAddNew = React.createClass( {
 				} else {
 					this.props.successNotice( this.translate( 'The DNS record has been added.' ) );
 					this.setState( { show: true } );
-					this.formStateController.resetFields( this.getInitialFields() );
 				}
 			} );
 		} );
@@ -166,7 +165,7 @@ const DnsAddNew = React.createClass( {
 
 				<FormFooter>
 					<FormButton
-						disabled={ formState.isSubmitButtonDisabled( this.state.fields ) || this.props.isSubmittingForm }
+						disabled={ formState.isSubmitButtonDisabled( this.state.fields ) }
 						onClick={ this.onAddDnsRecord }>
 						{ this.translate( 'Add New DNS Record' ) }
 					</FormButton>
@@ -174,7 +173,6 @@ const DnsAddNew = React.createClass( {
 					{ this.state.show && <FormButton
 						type="button"
 						isPrimary={ false }
-						disabled={ this.props.isSubmittingForm }
 						onClick={ this.onCancel }>
 						{ this.translate( 'Cancel' ) }
 					</FormButton> }
