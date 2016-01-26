@@ -110,7 +110,7 @@ const DnsAddNew = React.createClass( {
 		return ( event ) => {
 			this.formStateController.handleFieldChange( {
 				name: event.target.name,
-				value: event.target.value
+				value: event.target.value.trim().toLowerCase()
 			} );
 		};
 	},
