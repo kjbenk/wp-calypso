@@ -73,6 +73,12 @@ $color-print: #f8f8f8;
 	.sharing-service__name {
 		float: left;
 	}
+
+	@include breakpoint( "<660px" ) {
+		.sharing-service__name {
+			margin-top: 12px;
+		}
+	}
 }
 
 .sharing-settings {
