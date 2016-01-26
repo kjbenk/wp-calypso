@@ -3,7 +3,7 @@
  */
 var React = require( 'react' );
 
-var Button = require( 'components/Button' );
+var Button = require( 'components/button' );
 
 module.exports = React.createClass( {
 	displayName: 'SharingServicePlaceholder',

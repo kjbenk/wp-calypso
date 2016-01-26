@@ -214,10 +214,6 @@ $color-print: #f8f8f8;
 	margin-bottom: 1px;
 	padding: 0;
 
-	&:hover {
-		box-shadow: 0 0 0 1px lighten( $gray, 15% );
-	}
-
 	@include breakpoint( "<660px" ) {
 		margin: 0 0 16px 0;
 	}

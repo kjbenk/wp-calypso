@@ -41,7 +41,7 @@ module.exports = React.createClass( {
 	},
 
 	render: function() {
-		let classes = [ 'sharing-service-action' ],
+		let classes = [],
 			primary = false,
 			borderless = false,
 			warning = false,
