@@ -185,17 +185,6 @@ module.exports = React.createClass( {
 		}
 	},
 
-	toggleOpen: function() {
-		var isNowOpen = ! this.state.isOpen;
-		this.setState( { isOpen: isNowOpen } );
-
-		if ( isNowOpen ) {
-			analytics.ga.recordEvent( 'Sharing', 'Expanded Service', this.props.service.name );
-		} else {
-			analytics.ga.recordEvent( 'Sharing', 'Collapsed Service', this.props.service.name );
-		}
-	},
-
 	render: function() {
 		var connectionStatus = serviceConnections.getConnectionStatus( this.props.service.name ),
 			connections = serviceConnections.getConnections( this.props.service.name ),
