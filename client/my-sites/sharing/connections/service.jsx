@@ -188,7 +188,7 @@ module.exports = React.createClass( {
 	render: function() {
 		var connectionStatus = serviceConnections.getConnectionStatus( this.props.service.name ),
 			connections = serviceConnections.getConnections( this.props.service.name ),
-			elementClass, icon;
+			elementClass;
 
 		elementClass = [
 			'sharing-service',
@@ -198,13 +198,13 @@ module.exports = React.createClass( {
 		].join( ' ' );
 
 		const iconsMap = {
-			'Facebook': 'facebook',
-			'Twitter': 'twitter',
+			Facebook: 'facebook',
+			Twitter: 'twitter',
 			'Google+': 'google-plus-alt',
-			'LinkedIn': 'linkedin',
-			'Tumblr': 'tumblr-alt',
-			'Path': 'path-alt',
-			'Eventbrite': 'eventbrite'
+			LinkedIn: 'linkedin',
+			Tumblr: 'tumblr-alt',
+			Path: 'path-alt',
+			Eventbrite: 'eventbrite'
 		};
 
 		const header = (
