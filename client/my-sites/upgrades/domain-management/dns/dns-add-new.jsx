@@ -30,6 +30,7 @@ import { successNotice } from 'state/notices/actions';
 
 const DnsAddNew = React.createClass( {
 	propTypes: {
+		isSubmittingForm: React.PropTypes.bool.isRequired,
 		selectedDomainName: React.PropTypes.string.isRequired
 	},
 
@@ -163,13 +164,14 @@ const DnsAddNew = React.createClass( {
 
 				<FormFooter>
 					<FormButton
-						disabled={ formState.isSubmitButtonDisabled( this.state.fields ) }
+						disabled={ formState.isSubmitButtonDisabled( this.state.fields ) || this.props.isSubmittingForm }
 						onClick={ this.onAddDnsRecord }>
 						{ this.translate( 'Add New DNS Record' ) }
 					</FormButton>
 
 					{ this.state.show && <FormButton
 						type="button"
+						disabled={ this.props.isSubmittingForm }
 						isPrimary={ false }
 						onClick={ this.onCancel }>
 						{ this.translate( 'Cancel' ) }
