@@ -2,21 +2,19 @@
  * Oauth login page, used in WordPress Desktop App
  */
 
-html.is-desktop {
-	.logged-out-auth {
-		background: $blue-wordpress;
+.is-section-login {
+	background: $blue-wordpress;
 
-		.wp-content {
-			margin: 0 auto;
-			overflow: hidden;
-			max-width: none;
-			padding-left: 0;
-			padding-right: 0;
-		}
+	.wp-content {
+		margin: 0 auto;
+		overflow: hidden;
+		max-width: none;
+		padding-left: 0;
+		padding-right: 0;
+	}
 
-		.wp-content:after {
-			content: none;
-		}
+	.wp-content:after {
+		content: none;
 	}
 }
 
