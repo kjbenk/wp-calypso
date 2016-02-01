@@ -165,7 +165,7 @@ With that in mind, we typically have a few concerns when building a component th
 - Making the data available to the component
 - Allowing the component to modify the data
 
-The first of these, ensuring that data is available, is one that we'd wish to eliminate. It is unforunate that a developer should concern themselves with the fetching behavior of data, as it would be preferable instead that a component describe its data needs, and that the syncing/fetching behavior be handled behind the scenes automatically. Tools like [Relay](https://facebook.github.io/relay/) get us closer to this reality, though Relay has environment requirements that we cannot currently satisfy. For the time being, we must handle our own data fetching, but we should be conscious of a future in which fetching is not a concern for our components.
+The first of these, ensuring that data is available, is one that we'd wish to eliminate. It is unfortunate that a developer should concern themselves with the fetching behavior of data, as it would be preferable instead that a component describe its data needs, and that the syncing/fetching behavior be handled behind the scenes automatically. Tools like [Relay](https://facebook.github.io/relay/) get us closer to this reality, though Relay has environment requirements that we cannot currently satisfy. For the time being, we must handle our own data fetching, but we should be conscious of a future in which fetching is not a concern for our components.
 
 Framed this way, we can consider two types of container components: connected components and fetching components.
 
