@@ -56,7 +56,7 @@
 	display: flex;
 	justify-content: space-between;
 	overflow: hidden;
-	padding: 16px;
+	padding: 16px 4px 16px 16px;
 	position: relative;
 	width: 100%;
 
@@ -172,7 +172,8 @@
 		transform: rotate( 90deg );
 	}
 	.site-icon {
-		opacity: 0.7;
+		border: 1px dashed $gray-dark;
+		opacity: 0.8;
 	}
 }
 
