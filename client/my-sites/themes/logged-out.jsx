@@ -14,7 +14,7 @@ var Main = require( 'components/main' ),
 	ThemePreview = require( './theme-preview' ),
 	ThemesSelection = require( './themes-selection' ),
 	ThemeHelpers = require( 'lib/themes/helpers' ),
-	addTracking = require( './theme-options' ).addTracking,
+	addTracking = require( './helpers' ).addTracking,
 	actionLabels = require( './action-labels' ),
 	ThemesListSelectors = require( 'state/themes/themes-list/selectors' );
 
