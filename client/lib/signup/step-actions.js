@@ -96,11 +96,13 @@ module.exports = {
 				}
 			};
 
-			if ( themeSlug && ! themeItem ) { //FIXME: will only work for logged out users
+			if ( themeSlug && ! themeItem && ! user.get() ) {
 				return setThemeOnSite( addToCartAndProceed, { siteSlug }, { themeSlug } );
 			}
 
-			if ( user.get() ) {
+			if ( user.get() && themeSlug ) {
+				return fetchSitesAndUser( siteSlug, setThemeOnSite.bind( this, addToCartAndProceed, { siteSlug }, { themeSlug } ) );
+			} else if ( user.get() && ! themeSlug ) {
 				return fetchSitesAndUser( siteSlug, addToCartAndProceed );
 			}
 
