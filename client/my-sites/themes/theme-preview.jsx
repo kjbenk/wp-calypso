@@ -29,13 +29,13 @@ export default React.createClass( {
 		const previewUrl = getPreviewUrl( this.props.theme );
 
 		return(
-      <WebPreview showPreview={ this.props.showPreview }
-        onClose={ this.props.onClose }
-        previewUrl={ previewUrl } >
-        <Button primary
-          onClick={ this.onButtonClick }
-          >{ this.props.buttonLabel }</Button>
-      </WebPreview>
+			<WebPreview showPreview={ this.props.showPreview }
+				onClose={ this.props.onClose }
+				previewUrl={ previewUrl } >
+				<Button primary
+					onClick={ this.onButtonClick }
+					>{ this.props.buttonLabel }</Button>
+			</WebPreview>
     );
 	}
 } )
