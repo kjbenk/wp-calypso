@@ -10,8 +10,7 @@ var ThemesHelpers = {
 	oldShowcaseUrl: '//wordpress.com/themes/',
 
 	getSignupUrl( theme ) {
-		// TODO: Point to Calypso NUX (/start), passing it the theme id.
-		return '//signup.wordpress.com/signup/?source=calypso_showcase&theme=' + theme.id;
+		return '/start/with-theme?theme=' + theme.id;
 	},
 
 	getPreviewUrl( theme, site ) {
