@@ -142,8 +142,7 @@ var Plans = React.createClass( {
 					cart={ this.props.cart }
 					destinationType={ this.props.context.params.destinationType }
 					plan={ currentPlan }
-					selectedSite={ selectedSite }
-					store={ this.props.context.store } />
+					selectedSite={ selectedSite } />
 			);
 		}
 
