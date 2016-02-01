@@ -4,7 +4,7 @@
 import {
 	SITE_PLANS_FETCH,
 	SITE_PLANS_FETCH_COMPLETED,
-	REMOVE_SITE_PLANS
+	SITE_PLANS_REMOVE
 } from 'state/action-types';
 import omit from 'lodash/object/omit';
 
@@ -32,7 +32,7 @@ export function plans( state = {}, action ) {
 					data: action.plans
 				} )
 			} );
-		case REMOVE_SITE_PLANS:
+		case SITE_PLANS_REMOVE:
 			return omit( state, action.siteId );
 	}
 

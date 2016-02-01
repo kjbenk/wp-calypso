@@ -6,7 +6,7 @@ import { expect } from 'chai';
 /**
  * Internal dependencies
  */
-import { SITE_PLANS_FETCH, REMOVE_SITE_PLANS } from 'state/action-types';
+import { SITE_PLANS_FETCH, SITE_PLANS_REMOVE } from 'state/action-types';
 import { initialSiteState, plans } from '../reducer';
 
 describe( 'reducer', () => {
@@ -64,7 +64,7 @@ describe( 'reducer', () => {
 					22222222: initialSiteState
 				} ),
 				state = plans( original, {
-					type: REMOVE_SITE_PLANS,
+					type: SITE_PLANS_REMOVE,
 					siteId: 11111111
 				} );
 
