@@ -11,6 +11,7 @@ var React = require( 'react' ),
 var SiteIcon = require( 'components/site-icon' ),
 	Gridicon = require( 'components/gridicon' ),
 	SiteIndicator = require( 'my-sites/site-indicator' ),
+	getCustomizeUrl = require( 'lib/themes/helpers' ).getCustomizeUrl,
 	sites = require( 'lib/sites-list' )();
 
 module.exports = React.createClass( {
@@ -145,7 +146,10 @@ module.exports = React.createClass( {
 					<div className="site__content">
 						<SiteIcon site={ site } />
 						<div className="site__actions">
-							<span className="site__edit-icon">Edit Icon</span>
+							<a href={ getCustomizeUrl( null, site ) }
+								className="site__edit-icon">
+								{ this.translate( 'Edit Icon' ) }
+							</a>
 							{ this.renderStar() }
 						</div>
 					</div>
