@@ -10,7 +10,8 @@ module.exports.action = keyMirror( {
 	RECEIVE_UNFOLLOW_READER_FEED: null,
 	DISMISS_FOLLOW_ERROR: null,
 	RECEIVE_FEED_SUBSCRIPTIONS: null,
-	FETCH_NEXT_FEED_SUBSCRIPTIONS_PAGE: null
+	FETCH_NEXT_FEED_SUBSCRIPTIONS_PAGE: null,
+	RESET_FEED_SUBSCRIPTIONS_STATE: null
 } );
 
 module.exports.error = keyMirror( {

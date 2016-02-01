@@ -52,11 +52,14 @@ const FeedSubscriptionStore = createReducerStore( ( state, payload ) => {
 				return receiveSubscriptions( state, payload.action.data );
 			}
 
+		case actionTypes.RESET_FEED_SUBSCRIPTIONS_STATE:
+			return initialState;
 	}
 
 	return state;
 }, initialState );
 
+FeedSubscriptionStore.getSubscriptions = () => FeedSubscriptionStore.get().get( 'subscriptions' );
 FeedSubscriptionStore.isFetching = () => FeedSubscriptionStore.get().get( 'isFetching' );
 FeedSubscriptionStore.getSubscriptionCount = () => FeedSubscriptionStore.get().get( 'subscriptionCount' );
 FeedSubscriptionStore.isLastPage = () => FeedSubscriptionStore.get().get( 'isLastPage' );
