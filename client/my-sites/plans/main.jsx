@@ -75,7 +75,7 @@ var Plans = React.createClass( {
 	},
 
 	redirectToDefault() {
-		page.redirect( paths.plans( this.props.getSelectedSite().slug ) );
+		page.redirect( paths.plans( this.props.sites.getSelectedSite().slug ) );
 	},
 
 	renderNotice() {
