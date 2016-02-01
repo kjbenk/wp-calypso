@@ -69,7 +69,7 @@ module.exports = {
 			}
 
 			const siteSlug = response.blog_details.blogname + '.wordpress.com';
-			const	providedDependencies = {
+			const providedDependencies = {
 				siteSlug,
 				domainItem,
 				themeItem,
