@@ -8,6 +8,7 @@ import map from 'lodash/collection/map';
 
 // Internal dependencies
 import { action as actionTypes, state as stateTypes, error as errorTypes } from './constants';
+import { action as postStoreActionTypes } from 'lib/feed-post-store/constants';
 import { createReducerStore } from 'lib/store';
 import FeedSubscriptionHelper from './helper';
 
@@ -40,6 +41,11 @@ const FeedSubscriptionStore = createReducerStore( ( state, payload ) => {
 
 		case actionTypes.RECEIVE_FOLLOW_READER_FEED_ERROR:
 			return receiveFollowError( state, payload.action );
+
+		case postStoreActionTypes.RECEIVE_FEED_POST:
+			if ( payload.action.data && ! payload.action.data.errors ) {
+				return receivePost( state, payload.action.data );
+			}
 
 		case actionTypes.RECEIVE_FEED_SUBSCRIPTIONS:
 			if ( payload.action.data && ! payload.action.data.errors ) {
@@ -285,6 +291,20 @@ function receiveSubscriptions( state, data ) {
 
 	// @todo use withMutations?
 	return state.set( 'subscriptions', subscriptions ).set( 'currentPage', currentPage ).set( 'isLastPage', isLastPage ).set( 'subscriptionCount', subscriptionCount );
+};
+
+function receivePost( state, post ) {
+	if ( ! ( post ) ) {
+		return;
+	}
+
+	const siteUrl = FeedSubscriptionHelper.prepareSiteUrl( post.site_URL );
+
+	if ( ( post.is_following ) && ! FeedSubscriptionStore.getIsFollowing( 'URL', siteUrl ) ) {
+		return addSubscription( state, { URL: siteUrl } );
+	}
+
+	return state;
 };
 
 export default FeedSubscriptionStore;
