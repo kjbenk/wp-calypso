@@ -243,44 +243,44 @@ describe( 'feed-subscription-store', function() {
 	// 	expect( FeedSubscriptionStore.getSubscription( siteUrl ).get( 'state' ) ).to.eq( 'SUBSCRIBED' );
 	// } );
 
-	// it( 'should update the total subscription count during follow and unfollow', function() {
-	// 	const siteUrl = 'http://www.mango.com';
+	it( 'should update the total subscription count during follow and unfollow', function() {
+		const siteUrl = 'http://www.mango.com';
 
-	// 	// Receive initial total_subscriptions count
-	// 	Dispatcher.handleViewAction( {
-	// 		type: 'RECEIVE_FEED_SUBSCRIPTIONS',
-	// 		data: { page: 1, total_subscriptions: 506, subscriptions: [ { ID: 3, URL: 'http://www.dragonfruit.com', feed_ID: 456 } ] },
-	// 		error: null
-	// 	} );
+		// Receive initial total_subscriptions count
+		Dispatcher.handleViewAction( {
+			type: 'RECEIVE_FEED_SUBSCRIPTIONS',
+			data: { page: 1, total_subscriptions: 506, subscriptions: [ { ID: 3, URL: 'http://www.dragonfruit.com', feed_ID: 456 } ] },
+			error: null
+		} );
 
-	// 	// Follow
-	// 	Dispatcher.handleViewAction( {
-	// 		type: 'FOLLOW_READER_FEED',
-	// 		url: siteUrl,
-	// 		data: { URL: siteUrl },
-	// 		error: null
-	// 	} );
+		// Follow
+		Dispatcher.handleViewAction( {
+			type: 'FOLLOW_READER_FEED',
+			url: siteUrl,
+			data: { URL: siteUrl },
+			error: null
+		} );
 
-	// 	expect( FeedSubscriptionStore.getTotalSubscriptions() ).to.eq( 507 );
+		expect( FeedSubscriptionStore.getSubscriptionCount() ).to.eq( 507 );
 
-	// 	// Unfollow
-	// 	Dispatcher.handleViewAction( {
-	// 		type: 'UNFOLLOW_READER_FEED',
-	// 		url: siteUrl,
-	// 		data: { URL: siteUrl },
-	// 		error: null
-	// 	} );
+		// Unfollow
+		Dispatcher.handleViewAction( {
+			type: 'UNFOLLOW_READER_FEED',
+			url: siteUrl,
+			data: { URL: siteUrl },
+			error: null
+		} );
 
-	// 	expect( FeedSubscriptionStore.getTotalSubscriptions() ).to.eq( 506 );
+		expect( FeedSubscriptionStore.getSubscriptionCount() ).to.eq( 506 );
 
-	// 	// Re-follow (to check that the state change UNSUBSCRIBED->SUBSCRIBED updates the count correctly)
-	// 	Dispatcher.handleViewAction( {
-	// 		type: 'FOLLOW_READER_FEED',
-	// 		url: siteUrl,
-	// 		data: { URL: siteUrl },
-	// 		error: null
-	// 	} );
+		// Re-follow (to check that the state change UNSUBSCRIBED->SUBSCRIBED updates the count correctly)
+		Dispatcher.handleViewAction( {
+			type: 'FOLLOW_READER_FEED',
+			url: siteUrl,
+			data: { URL: siteUrl },
+			error: null
+		} );
 
-	// 	expect( FeedSubscriptionStore.getTotalSubscriptions() ).to.eq( 507 );
-	// } );
+		expect( FeedSubscriptionStore.getSubscriptionCount() ).to.eq( 507 );
+	} );
 } );
