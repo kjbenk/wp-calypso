@@ -51,7 +51,12 @@ const ReaderSidebarTags = React.createClass( {
 		}
 	},
 
-	render: function() {
+	handleAddClick() {
+		stats.recordAction( 'follow_topic_open_input' );
+		stats.recordGaEvent( 'Clicked Add Topic to Open Input' );
+	},
+
+	render() {
 		const tagCount = this.props.tags ? this.props.tags.length : 0;
 		return (
 			<ExpandableSidebarMenu
@@ -60,6 +65,7 @@ const ReaderSidebarTags = React.createClass( {
 				count={ tagCount }
 				addPlaceholder={ this.translate( 'Add any tag' ) }
 				onAddSubmit={ this.followTag }
+				onAddClick={ this.handleAddClick }
 				onClick={ this.props.onClick }>
 					<ReaderSidebarTagsList { ...this.props } onUnfollow={ this.unfollowTag } />
 			</ExpandableSidebarMenu>

@@ -29,6 +29,11 @@ const ReaderSidebarLists = React.createClass( {
 		ReaderListsActions.create( list );
 	},
 
+	handleAddClick() {
+		stats.recordAction( 'add_list_open_input' );
+		stats.recordGaEvent( 'Clicked Add List to Open Input' );
+	},
+
 	render() {
 		const listCount = this.props.lists ? this.props.lists.length : 0;
 		return (
@@ -37,6 +42,7 @@ const ReaderSidebarLists = React.createClass( {
 				title={ this.translate( 'Lists' ) }
 				count={ listCount }
 				addPlaceholder={ this.translate( 'Give your list a name' ) }
+				onAddClick={ this.handleAddClick }
 				onAddSubmit={ this.createList }
 				onClick={ this.props.onClick }>
 					<ReaderSidebarListsList { ...this.props } />

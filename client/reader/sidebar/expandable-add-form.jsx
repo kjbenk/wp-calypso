@@ -3,6 +3,7 @@
  */
 import React from 'react';
 import classNames from 'classnames';
+import noop from 'lodash/utility/noop';
 
 /**
  * Internal Dependencies
@@ -14,7 +15,8 @@ const ExpandableSidebarAddForm = React.createClass( {
 
 	propTypes: {
 		addPlaceholder: React.PropTypes.string,
-		onAddSubmit: React.PropTypes.func
+		onAddSubmit: React.PropTypes.func,
+		onAddClick: React.PropTypes.func
 	},
 
 	getInitialState() {
@@ -23,9 +25,17 @@ const ExpandableSidebarAddForm = React.createClass( {
 		};
 	},
 
+	getDefaultProps() {
+		return {
+			onAddSubmit: noop,
+			onAddClick: noop
+		}
+	},
+
 	toggleAdd() {
 		if ( ! this.state.isAdding ) {
 			this.refs.menuAddInput.focus();
+			this.props.onAddClick();
 		}
 		this.setState( { isAdding: ! this.state.isAdding } );
 	},

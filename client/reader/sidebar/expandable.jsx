@@ -18,6 +18,7 @@ const ExpandableSidebarMenu = React.createClass( {
 		count: React.PropTypes.number,
 		addPlaceholder: React.PropTypes.string,
 		onAddSubmit: React.PropTypes.func,
+		onAddClick: React.PropTypes.func,
 		onClick: React.PropTypes.func
 	},
 
@@ -39,7 +40,7 @@ const ExpandableSidebarMenu = React.createClass( {
 		return (
 			<SidebarMenu className={ classes }>
 				<ExpandableSidebarHeading title={ this.props.title } count={ this.props.count } onClick={ this.props.onClick } />
-				<ExpandableSidebarAddForm addPlaceholder={ this.props.addPlaceholder } onAddSubmit={ this.props.onAddSubmit } />
+				<ExpandableSidebarAddForm addPlaceholder={ this.props.addPlaceholder } onAddClick={ this.props.onAddClick } onAddSubmit={ this.props.onAddSubmit } />
 				<ul className="sidebar__menu-list">
 					{ this.props.children }
 				</ul>
