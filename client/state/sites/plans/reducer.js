@@ -5,7 +5,7 @@ import {
 	FETCH_SITE_PLANS,
 	FETCH_SITE_PLANS_COMPLETED,
 	REMOVE_SITE_PLANS
-} from './action-types';
+} from 'state/action-types';
 import omit from 'lodash/object/omit';
 
 export const initialSiteState = {
