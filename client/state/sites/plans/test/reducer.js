@@ -10,6 +10,9 @@ import {
 	SITE_PLANS_FETCH,
 	SITE_PLANS_FETCH_COMPLETED,
 	SITE_PLANS_FETCH_FAILED,
+	SITE_PLANS_TRIAL_CANCEL,
+	SITE_PLANS_TRIAL_CANCEL_FAILED,
+	SITE_PLANS_TRIAL_CANCEL_COMPLETED,
 	SITE_PLANS_REMOVE
 } from 'state/action-types';
 import { plans } from '../reducer';
@@ -44,7 +47,8 @@ describe( 'reducer', () => {
 						data: [],
 						error: null,
 						hasLoadedFromServer: true,
-						isFetching: false
+						isFetching: false,
+						isUpdating: false
 					}
 				} ),
 				state = plans( original, {
@@ -66,7 +70,8 @@ describe( 'reducer', () => {
 					data: null,
 					error: null,
 					hasLoadedFromServer: false,
-					isFetching: true
+					isFetching: true,
+					isUpdating: false
 				}
 			} );
 		} );
@@ -77,13 +82,14 @@ describe( 'reducer', () => {
 						data: [],
 						error: null,
 						hasLoadedFromServer: true,
-						isFetching: true
+						isFetching: true,
+						isUpdating: false
 					}
 				} ),
 				state = plans( original, {
 					type: SITE_PLANS_FETCH_FAILED,
 					siteId: 11111111,
-					error: 'Unable to fetch site plans',
+					error: 'Unable to fetch site plans'
 				} );
 
 			expect( state ).to.eql( {
@@ -91,7 +97,8 @@ describe( 'reducer', () => {
 					data: [],
 					error: 'Unable to fetch site plans',
 					hasLoadedFromServer: true,
-					isFetching: false
+					isFetching: false,
+					isUpdating: false
 				}
 			} );
 		} );
@@ -108,7 +115,8 @@ describe( 'reducer', () => {
 					data: [],
 					error: null,
 					hasLoadedFromServer: true,
-					isFetching: false
+					isFetching: false,
+					isUpdating: false
 				}
 			} );
 		} );
@@ -119,7 +127,8 @@ describe( 'reducer', () => {
 						data: [],
 						error: null,
 						hasLoadedFromServer: true,
-						isFetching: false
+						isFetching: false,
+						isUpdating: false
 					}
 				} ),
 				state = plans( original, {
@@ -132,13 +141,15 @@ describe( 'reducer', () => {
 					data: [],
 					error: null,
 					hasLoadedFromServer: true,
-					isFetching: false
+					isFetching: false,
+					isUpdating: false
 				},
 				55555555: {
 					data: null,
 					error: null,
 					hasLoadedFromServer: false,
-					isFetching: true
+					isFetching: true,
+					isUpdating: false
 				}
 			} );
 		} );
@@ -149,7 +160,8 @@ describe( 'reducer', () => {
 						data: null,
 						error: 'Unable to fetch site plans',
 						hasLoadedFromServer: false,
-						isFetching: false
+						isFetching: false,
+						isUpdating: false
 					}
 				} ),
 				state = plans( original, {
@@ -162,7 +174,79 @@ describe( 'reducer', () => {
 					data: null,
 					error: null,
 					hasLoadedFromServer: false,
-					isFetching: true
+					isFetching: true,
+					isUpdating: false
+				}
+			} );
+		} );
+
+		it( 'should return the original state with updating enabled when trial cancelation is triggered', () => {
+			const original = Object.freeze( {
+					11111111: {
+						data: [],
+						error: null,
+						hasLoadedFromServer: false,
+						isFetching: false,
+						isUpdating: false
+					}
+				} ),
+				state = plans( original, {
+					type: SITE_PLANS_TRIAL_CANCEL,
+					siteId: 11111111
+				} );
+
+			expect( state ).to.eql( {
+				11111111: {
+					data: [],
+					error: null,
+					hasLoadedFromServer: false,
+					isFetching: false,
+					isUpdating: true
+				}
+			} );
+		} );
+
+		it( 'should return the original state with an error and updating disabled when trial cancelation failed', () => {
+			const original = Object.freeze( {
+					11111111: {
+						data: [],
+						error: null,
+						hasLoadedFromServer: true,
+						isFetching: false,
+						isUpdating: false
+					}
+				} ),
+				state = plans( original, {
+					type: SITE_PLANS_TRIAL_CANCEL_FAILED,
+					siteId: 11111111,
+					error: 'Unable to cancel plan trial'
+				} );
+
+			expect( state ).to.eql( {
+				11111111: {
+					data: [],
+					error: 'Unable to cancel plan trial',
+					hasLoadedFromServer: true,
+					isFetching: false,
+					isUpdating: false
+				}
+			} );
+		} );
+
+		it( 'should return a list of plans as well as loaded from server enabled and updating disabled when trial cancelation completed', () => {
+			const state = plans( undefined, {
+				type: SITE_PLANS_TRIAL_CANCEL_COMPLETED,
+				siteId: 11111111,
+				plans: []
+			} );
+
+			expect( state ).to.eql( {
+				11111111: {
+					data: [],
+					error: null,
+					hasLoadedFromServer: true,
+					isFetching: false,
+					isUpdating: false
 				}
 			} );
 		} );
@@ -182,7 +266,8 @@ describe( 'reducer', () => {
 						data: null,
 						error: 'Unable to fetch site plans',
 						hasLoadedFromServer: false,
-						isFetching: false
+						isFetching: false,
+						isUpdating: false
 					}
 				} ),
 				state = plans( original, {
@@ -199,13 +284,15 @@ describe( 'reducer', () => {
 						data: null,
 						error: 'Unable to fetch site plans',
 						hasLoadedFromServer: false,
-						isFetching: false
+						isFetching: false,
+						isUpdating: false
 					},
 					22222222: {
 						data: [],
 						error: null,
 						hasLoadedFromServer: true,
-						isFetching: false
+						isFetching: false,
+						isUpdating: false
 					}
 				} ),
 				state = plans( original, {
@@ -218,7 +305,8 @@ describe( 'reducer', () => {
 					data: [],
 					error: null,
 					hasLoadedFromServer: true,
-					isFetching: false
+					isFetching: false,
+					isUpdating: false
 				}
 			} );
 		} );
