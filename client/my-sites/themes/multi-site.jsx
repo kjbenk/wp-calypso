@@ -49,7 +49,6 @@ var ThemesMultiSite = React.createClass( {
 
 	getButtonOptions: function() {
 		const buttonOptions = {
-			signup: {},
 			preview: {
 				action: theme => this.togglePreview( theme ),
 				hideForTheme: theme => theme.active

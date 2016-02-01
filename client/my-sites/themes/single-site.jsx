@@ -57,7 +57,6 @@ var ThemesSingleSite = React.createClass( {
 	getButtonOptions: function() {
 		const { dispatch, selectedSite: site } = this.props,
 			buttonOptions = {
-				signup: {},
 				preview: {
 					action: theme => this.togglePreview( theme ),
 					hideForTheme: theme => theme.active

@@ -39,9 +39,6 @@ var ThemesLoggedOut = React.createClass( {
 				action: theme => this.togglePreview( theme ),
 				hideForTheme: theme => theme.active
 			},
-			purchase: {},
-			activate: {},
-			customize: {},
 			separator: {
 				separator: true
 			},
