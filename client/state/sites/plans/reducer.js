@@ -13,10 +13,10 @@ import {
 } from 'state/action-types';
 
 export const initialSiteState = {
+	data: null,
 	error: null,
 	hasLoadedFromServer: false,
-	isFetching: false,
-	data: null
+	isFetching: false
 };
 
 export function plans( state = {}, action ) {
@@ -24,6 +24,7 @@ export function plans( state = {}, action ) {
 		case SITE_PLANS_FETCH:
 			return Object.assign( {}, state, {
 				[ action.siteId ]: Object.assign( {}, initialSiteState, state[ action.siteId ], {
+					error: null,
 					isFetching: true
 				} )
 			} );
