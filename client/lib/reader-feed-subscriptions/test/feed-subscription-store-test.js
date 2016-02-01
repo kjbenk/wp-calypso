@@ -144,40 +144,40 @@ describe( 'feed-subscription-store', function() {
 		expect( FeedSubscriptionStore.getIsFollowing( 'URL', 'https://www.zeldman.com' ) ).to.eq( true );
 	} );
 
-	// it( 'should receive a list of subscriptions', function() {
-	// 	FeedSubscriptionStore.setPerPage( 2 );
+	it( 'should receive a list of subscriptions', function() {
+		FeedSubscriptionStore.setPerPage( 2 );
 
-	// 	Dispatcher.handleViewAction( {
-	// 		type: 'RECEIVE_FEED_SUBSCRIPTIONS',
-	// 		data: { page: 1, total_subscriptions: 505, subscriptions: [ { ID: 1, URL: 'http://www.banana.com', feed_ID: 123 }, { ID: 2, URL: 'http://www.feijoa.com' } ] },
-	// 		error: null
-	// 	} );
+		Dispatcher.handleViewAction( {
+			type: 'RECEIVE_FEED_SUBSCRIPTIONS',
+			data: { page: 1, total_subscriptions: 505, subscriptions: [ { ID: 1, URL: 'http://www.banana.com', feed_ID: 123 }, { ID: 2, URL: 'http://www.feijoa.com' } ] },
+			error: null
+		} );
 
-	// 	expect( FeedSubscriptionStore.getIsFollowingBySiteUrl( 'https://www.feijoa.com' ) ).to.eq( true );
-	// 	expect( FeedSubscriptionStore.getSubscription( 'http://www.banana.com' ) ).to.equal( Immutable.fromJS( {
-	// 		ID: 1,
-	// 		URL: 'http://www.banana.com',
-	// 		feed_ID: 123,
-	// 		state: 'SUBSCRIBED'
-	// 	} ) );
-	// 	expect( FeedSubscriptionStore.getTotalSubscriptions() ).to.eq( 505 );
+		expect( FeedSubscriptionStore.getIsFollowing( 'URL', 'https://www.feijoa.com' ) ).to.eq( true );
+		expect( FeedSubscriptionStore.getSubscription( 'URL', 'http://www.banana.com' ) ).to.equal( Immutable.fromJS( {
+			ID: 1,
+			URL: 'http://www.banana.com',
+			feed_ID: 123,
+			state: 'SUBSCRIBED'
+		} ) );
+		expect( FeedSubscriptionStore.getSubscriptionCount() ).to.eq( 505 );
 
-	// 	// Receiving second page (subscriptions should be merged)
-	// 	Dispatcher.handleViewAction( {
-	// 		type: 'RECEIVE_FEED_SUBSCRIPTIONS',
-	// 		data: { page: 2, total_subscriptions: 505, subscriptions: [ { ID: 3, URL: 'http://www.dragonfruit.com', feed_ID: 456 } ] },
-	// 		error: null
-	// 	} );
+		// Receiving second page (subscriptions should be merged)
+		Dispatcher.handleViewAction( {
+			type: 'RECEIVE_FEED_SUBSCRIPTIONS',
+			data: { page: 2, total_subscriptions: 505, subscriptions: [ { ID: 3, URL: 'http://www.dragonfruit.com', feed_ID: 456 } ] },
+			error: null
+		} );
 
-	// 	expect( FeedSubscriptionStore.getIsFollowingBySiteUrl( 'https://www.feijoa.com' ) ).to.eq( true );
-	// 	expect( FeedSubscriptionStore.getIsFollowingBySiteUrl( 'https://www.dragonfruit.com' ) ).to.eq( true );
-	// 	expect( FeedSubscriptionStore.getSubscription( 'http://www.dragonfruit.com' ) ).to.equal( Immutable.fromJS( {
-	// 		ID: 3,
-	// 		URL: 'http://www.dragonfruit.com',
-	// 		feed_ID: 456,
-	// 		state: 'SUBSCRIBED'
-	// 	} ) );
-	// } );
+		expect( FeedSubscriptionStore.getIsFollowing( 'URL', 'https://www.feijoa.com' ) ).to.eq( true );
+		expect( FeedSubscriptionStore.getIsFollowing( 'URL', 'https://www.dragonfruit.com' ) ).to.eq( true );
+		expect( FeedSubscriptionStore.getSubscription( 'URL', 'http://www.dragonfruit.com' ) ).to.equal( Immutable.fromJS( {
+			ID: 3,
+			URL: 'http://www.dragonfruit.com',
+			feed_ID: 456,
+			state: 'SUBSCRIBED'
+		} ) );
+	} );
 
 	// it( 'should not add duplicate subscriptions', function() {
 	// 	Dispatcher.handleViewAction( {

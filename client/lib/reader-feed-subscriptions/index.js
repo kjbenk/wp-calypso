@@ -1,9 +1,10 @@
 // Reader Feed Subscription Store
 
 // External dependencies
-import { Map, fromJS } from 'immutable';
+import { List, Map, fromJS } from 'immutable';
 import debugModule from 'debug';
 import get from 'lodash/object/get';
+import map from 'lodash/collection/map';
 
 // Internal dependencies
 import { action as actionTypes, state as stateTypes, error as errorTypes } from './constants';
@@ -39,15 +40,23 @@ const FeedSubscriptionStore = createReducerStore( ( state, payload ) => {
 
 		case actionTypes.RECEIVE_FOLLOW_READER_FEED_ERROR:
 			return receiveFollowError( state, payload.action );
+
+		case actionTypes.RECEIVE_FEED_SUBSCRIPTIONS:
+			if ( payload.action.data && ! payload.action.data.errors ) {
+				return receiveSubscriptions( state, payload.action.data );
+			}
+
 	}
 
 	return state;
 }, initialState );
 
-FeedSubscriptionStore.isFetching = function() {
-	const state = FeedSubscriptionStore.get();
-	return state.get( 'isFetching' );
-};
+FeedSubscriptionStore.isFetching = () => FeedSubscriptionStore.get().get( 'isFetching' );
+FeedSubscriptionStore.getSubscriptionCount = () => FeedSubscriptionStore.get().get( 'subscriptionCount' );
+FeedSubscriptionStore.isLastPage = () => FeedSubscriptionStore.get().get( 'isLastPage' );
+FeedSubscriptionStore.getCurrentPage = () => FeedSubscriptionStore.get().get( 'currentPage' );
+
+FeedSubscriptionStore.clearSubscriptions = () => FeedSubscriptionStore.get().set( 'subscriptions', [] );
 
 FeedSubscriptionStore.getLastError = function( key, value ) {
 	const state = FeedSubscriptionStore.get();
@@ -62,19 +71,9 @@ FeedSubscriptionStore.getLastError = function( key, value ) {
 	} );
 };
 
-FeedSubscriptionStore.isLastPage = function() {
+FeedSubscriptionStore.setPerPage = function( perPage ) {
 	const state = FeedSubscriptionStore.get();
-	return state.get( 'isLastPage' );
-};
-
-FeedSubscriptionStore.getCurrentPage = function() {
-	const state = FeedSubscriptionStore.get();
-	return state.get( 'currentPage' );
-};
-
-FeedSubscriptionStore.clearSubscriptions = function() {
-	const state = FeedSubscriptionStore.get();
-	return state.set( 'subscriptions', [] );
+	return state.set( 'perPage', +perPage );
 };
 
 FeedSubscriptionStore.getSubscription = function( key, value ) {
@@ -111,11 +110,14 @@ FeedSubscriptionStore.removeErrorsForSubscription = function( subscription ) {
 	return state;
 };
 
-
 FeedSubscriptionStore.getIsFollowing = function( key, value ) {
 	return !! ( this.getSubscription( key, value ) );
 };
 
+// Added for backwards compatibility
+FeedSubscriptionStore.getIsFollowingBySiteUrl = function( url ) {
+	return FeedSubscriptionStore.getIsFollowing( 'URL', url );
+};
 
 function addSubscription( state, subscription ) {
 	if ( ! subscription ) {
@@ -241,5 +243,48 @@ function receiveFollowError( state, action ) {
 
 	return stateAfterRemoval.set( 'errors', errors );
 }
+
+function receiveSubscriptions( state, data ) {
+	if ( ! data.subscriptions ) {
+		return;
+	}
+
+	const currentSubscriptions = state.get( 'subscriptions' );
+	let subscriptions = null;
+
+	// All subscriptions we receive this way will be 'subscribed', so set the state accordingly
+	const subscriptionsWithState = map( data.subscriptions, function( sub ) {
+		return subscriptionTemplate.merge( sub );
+	} );
+
+	const newSubscriptions = List( subscriptionsWithState ); // eslint-disable-line new-cap
+
+	// Is it the last page?
+	let isLastPage = false;
+	if ( data.number === 0 ) {
+		isLastPage = true;
+	}
+
+	// Is it a new page of results?
+	let currentPage = state.get( 'currentPage' );
+	if ( currentPage > 0 && data.page > currentPage ) {
+		subscriptions = currentSubscriptions.concat( newSubscriptions );
+	} else {
+		// Looks like the first results we've received...
+		subscriptions = newSubscriptions;
+	}
+
+	// Set the current page
+	currentPage = data.page;
+
+	// Set total subscriptions for user on the first page only (we keep track of it in the store after that)
+	let subscriptionCount = state.get( 'subscriptionCount' );
+	if ( currentPage === 1 ) {
+		subscriptionCount = data.total_subscriptions;
+	}
+
+	// @todo use withMutations?
+	return state.set( 'subscriptions', subscriptions ).set( 'currentPage', currentPage ).set( 'isLastPage', isLastPage ).set( 'subscriptionCount', subscriptionCount );
+};
 
 export default FeedSubscriptionStore;
