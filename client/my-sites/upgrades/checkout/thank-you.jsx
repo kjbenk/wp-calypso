@@ -161,49 +161,6 @@ var CheckoutThankYou = React.createClass( {
 		return ( cartItems.hasProduct( this.props.lastTransaction.cart, 'jetpack_premium' ) || cartItems.hasProduct( this.props.lastTransaction.cart, 'jetpack_business' ) );
 	},
 
-	takeItForASpin: function() {
-		return (
-			<h3>
-				{ this.translate( 'Take it for a spin!', {
-					context: 'Upgrades: Header on thank you screen after successful upgrade trial activation.',
-					comment: 'It = Premium or Business plan'
-				} ) }
-			</h3>
-		);
-	},
-
-	premiumFreeTrialMessage: function() {
-		if ( this.cartHasFreeTrial() ) {
-			return (
-				<div className="try-out-message">
-					<p>
-						{ this.translate( 'You have %(days)d days to try out all of the WordPress.com Premium features:', {
-							args: { days: 14 },
-							context: 'Upgrades: Description on thank you screen after successful upgrade trial activation',
-							comment: '"%(days)d" = 14'
-						} ) }
-					</p>
-				</div>
-			);
-		}
-	},
-
-	businessFreeTrialMessage: function() {
-		if ( this.cartHasFreeTrial() ) {
-			return (
-				<div className="try-out-message">
-					<p>
-						{ this.translate( 'You have %(days)d days to try out all of the WordPress.com Business features:', {
-							args: { days: 14 },
-							context: 'Upgrades: Description on thank you screen after successful upgrade trial activation',
-							comment: '"%(days)d" = 14'
-						} ) }
-					</p>
-				</div>
-			);
-		}
-	},
-
 	productRelatedMessages: function() {
 		var cart = this.props.lastTransaction.cart,
 			selectedSite = this.props.lastTransaction.selectedSite,
