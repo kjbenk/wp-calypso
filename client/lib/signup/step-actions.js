@@ -69,6 +69,7 @@ module.exports = {
 			}
 
 			const siteSlug = response.blog_details.blogname + '.wordpress.com';
+			const isFreeThemePreselected = themeSlug && ! themeItem;
 			const providedDependencies = {
 				siteSlug,
 				domainItem,
@@ -96,13 +97,13 @@ module.exports = {
 				}
 			};
 
-			if ( themeSlug && ! themeItem && ! user.get() ) {
+			if ( ! user.get() && isFreeThemePreselected ) {
 				return setThemeOnSite( addToCartAndProceed, { siteSlug }, { themeSlug } );
 			}
 
-			if ( user.get() && themeSlug ) {
+			if ( user.get() && isFreeThemePreselected ) {
 				return fetchSitesAndUser( siteSlug, setThemeOnSite.bind( this, addToCartAndProceed, { siteSlug }, { themeSlug } ) );
-			} else if ( user.get() && ! themeSlug ) {
+			} else if ( user.get() ) {
 				return fetchSitesAndUser( siteSlug, addToCartAndProceed );
 			}
 
