@@ -42,6 +42,9 @@ const FeedSubscriptionStore = createReducerStore( ( state, payload ) => {
 		case actionTypes.RECEIVE_FOLLOW_READER_FEED_ERROR:
 			return receiveFollowError( state, payload.action );
 
+		case actionTypes.DISMISS_FOLLOW_ERROR:
+			return removeErrorsForSiteUrl( state, payload.action.URL );
+
 		case postStoreActionTypes.RECEIVE_FEED_POST:
 			if ( payload.action.data && ! payload.action.data.errors ) {
 				return receivePost( state, payload.action.data );
@@ -69,7 +72,6 @@ FeedSubscriptionStore.clearSubscriptions = () => FeedSubscriptionStore.get().set
 
 FeedSubscriptionStore.getLastError = function( key, value ) {
 	const state = FeedSubscriptionStore.get();
-
 	let preparedValue = value;
 	if ( key === 'URL' ) {
 		preparedValue = FeedSubscriptionHelper.prepareSiteUrl( value );
@@ -78,6 +80,10 @@ FeedSubscriptionStore.getLastError = function( key, value ) {
 	return state.get( 'errors' ).reverse().find( function( error ) {
 		return ( error.get( key ) === preparedValue );
 	} );
+};
+
+FeedSubscriptionStore.getLastErrorBySiteUrl = function( siteUrl ) {
+	return FeedSubscriptionStore.getLastError( 'URL', siteUrl );
 };
 
 FeedSubscriptionStore.setPerPage = function( perPage ) {
@@ -111,14 +117,6 @@ FeedSubscriptionStore.getSubscriptionIndex = function( key, value ) {
 	} );
 
 	return index >= 0 ? index : null;
-};
-
-FeedSubscriptionStore.removeErrorsForSubscription = function( subscription ) {
-	const state = FeedSubscriptionStore.get();
-
-	//@todo
-
-	return state;
 };
 
 FeedSubscriptionStore.getIsFollowing = function( key, value ) {
@@ -255,6 +253,12 @@ function receiveFollowError( state, action ) {
 	}
 
 	return stateAfterRemoval.set( 'errors', errors );
+}
+
+function removeErrorsForSiteUrl( state, siteUrl ) {
+	const preparedUrl = FeedSubscriptionHelper.prepareSiteUrl( siteUrl );
+	const updatedErrors = state.get( 'errors' ).filterNot( error => error.get( 'URL' ) === preparedUrl );
+	return state.set( 'errors', updatedErrors );
 }
 
 function receiveSubscriptions( state, data ) {

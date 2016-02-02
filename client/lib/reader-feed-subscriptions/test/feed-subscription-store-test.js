@@ -8,8 +8,6 @@ import chaiImmutable from 'chai-Immutable';
 
 chai.use( chaiImmutable );
 
-const debug = require( 'debug' )( 'calypso:reader-feed-subs' );
-
 const FeedSubscriptionStore = require( '../index' );
 
 describe( 'feed-subscription-store', function() {
@@ -195,8 +193,6 @@ describe( 'feed-subscription-store', function() {
 			error: null
 		} );
 
-		const subscriptions = FeedSubscriptionStore.getSubscriptions();
-
 		expect( FeedSubscriptionStore.getIsFollowingBySiteUrl( 'https://www.tomato.com' ) ).to.eq( true );
 		expect( FeedSubscriptionStore.getSubscriptions().size ).to.eq( 1 );
 	} );
@@ -290,5 +286,27 @@ describe( 'feed-subscription-store', function() {
 		} );
 
 		expect( FeedSubscriptionStore.getSubscriptionCount() ).to.eq( 507 );
+	} );
+
+	it( 'dismisses a error by site URL', function() {
+		const zeldmanSiteUrl = 'http://www.zeldman.com';
+
+		Dispatcher.handleServerAction( {
+			type: 'RECEIVE_FOLLOW_READER_FEED_ERROR',
+			url: zeldmanSiteUrl,
+			data: {
+				info: 'unable_to_follow',
+				subscribed: false
+			}
+		} );
+
+		expect( FeedSubscriptionStore.getLastError( 'URL', zeldmanSiteUrl ) ).to.be.an( 'object' );
+
+		Dispatcher.handleViewAction( {
+			type: 'DISMISS_FOLLOW_ERROR',
+			URL: zeldmanSiteUrl
+		} );
+
+		expect( FeedSubscriptionStore.getLastError( 'URL', zeldmanSiteUrl ) ).to.be.an( 'undefined' );
 	} );
 } );
