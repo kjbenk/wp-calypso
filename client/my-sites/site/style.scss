@@ -167,7 +167,7 @@
 	}
 	&:hover {
 		.gridicon {
-			color: $gray-dark;
+			color: darken( $gray, 20% );
 		}
 	}
 }
