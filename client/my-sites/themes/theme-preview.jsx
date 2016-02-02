@@ -36,6 +36,6 @@ export default React.createClass( {
 					onClick={ this.onButtonClick }
 					>{ this.props.buttonLabel }</Button>
 			</WebPreview>
-    );
+		);
 	}
 } )
