@@ -106,9 +106,11 @@ FeedSubscriptionStore.getSubscriptionIndex = function( key, value ) {
 		preparedValue = FeedSubscriptionHelper.prepareSiteUrl( value );
 	}
 
-	return state.get( 'subscriptions' ).findIndex( function( subscription ) {
+	const index = state.get( 'subscriptions' ).findIndex( function( subscription ) {
 		return ( subscription.get( key ) === preparedValue );
 	} );
+
+	return index >= 0 ? index : null;
 };
 
 FeedSubscriptionStore.removeErrorsForSubscription = function( subscription ) {
@@ -133,10 +135,12 @@ function addSubscription( state, subscription ) {
 		return;
 	}
 
+	const newSubscriptionInfo = fromJS( subscription );
+
 	// Is this URL already in the subscription list (in any state, not just SUBSCRIBED)?
 	const subscriptionKey = chooseBestSubscriptionKey( subscription );
-	const existingSubscription = FeedSubscriptionStore.getSubscription( subscriptionKey, subscription[ subscriptionKey ], true );
-	if ( existingSubscription ) {
+	const existingSubscriptionIndex = FeedSubscriptionStore.getSubscriptionIndex( subscriptionKey, newSubscriptionInfo.get( subscriptionKey ) );
+	if ( Number.isInteger( existingSubscriptionIndex ) ) {
 		return updateSubscription( state, subscriptionTemplate.merge( subscription ) );
 	}
 
@@ -148,7 +152,8 @@ function addSubscription( state, subscription ) {
 	// Otherwise, create a new subscription
 	const newSubscription = subscriptionTemplate.merge( subscription );
 	const subscriptions = state.get( 'subscriptions' ).unshift( newSubscription );
-	const subscriptionCount = state.get( 'subscriptionCount' ) + 1;
+	let subscriptionCount = state.get( 'subscriptionCount' );
+	subscriptionCount++;
 
 	return state.set( 'subscriptions', subscriptions ).set( 'subscriptionCount', subscriptionCount );
 }
@@ -167,7 +172,6 @@ function updateSubscription( state, newSubscriptionInfo ) {
 	const subscriptionKey = chooseBestSubscriptionKey( newSubscriptionInfo );
 	const existingSubscriptionIndex = FeedSubscriptionStore.getSubscriptionIndex( subscriptionKey, newSubscriptionInfo.get( subscriptionKey ) );
 	const existingSubscription = state.get( 'subscriptions' ).get( +existingSubscriptionIndex );
-
 	if ( ! existingSubscription ) {
 		return state;
 	}

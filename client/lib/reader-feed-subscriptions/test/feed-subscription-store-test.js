@@ -8,7 +8,7 @@ import chaiImmutable from 'chai-Immutable';
 
 chai.use( chaiImmutable );
 
-var debug = require( 'debug' )( 'calypso:apple' );
+const debug = require( 'debug' )( 'calypso:reader-feed-subs' );
 
 const FeedSubscriptionStore = require( '../index' );
 
@@ -243,11 +243,10 @@ describe( 'feed-subscription-store', function() {
 
 		// The subscription data from the first follow response should still exist
 		// (and there should not be duplicate records for the same feed)
-		debug( FeedSubscriptionStore.getSubscriptions() );
 		expect( FeedSubscriptionStore.getIsFollowingBySiteUrl( siteUrl ) ).to.eq( true );
-		//expect( FeedSubscriptionStore.getSubscriptions().size ).to.eq( 1 );
-		//expect( FeedSubscriptionStore.getSubscription( 'URL', siteUrl ).get( 'feed_ID' ) ).to.eq( 123 );
-		//expect( FeedSubscriptionStore.getSubscription( 'URL', siteUrl ).get( 'state' ) ).to.eq( 'SUBSCRIBED' );
+		expect( FeedSubscriptionStore.getSubscriptions().size ).to.eq( 1 );
+		expect( FeedSubscriptionStore.getSubscription( 'URL', siteUrl ).get( 'feed_ID' ) ).to.eq( 123 );
+		expect( FeedSubscriptionStore.getSubscription( 'URL', siteUrl ).get( 'state' ) ).to.eq( 'SUBSCRIBED' );
 	} );
 
 	it( 'should update the total subscription count during follow and unfollow', function() {
@@ -256,9 +255,11 @@ describe( 'feed-subscription-store', function() {
 		// Receive initial total_subscriptions count
 		Dispatcher.handleViewAction( {
 			type: 'RECEIVE_FEED_SUBSCRIPTIONS',
-			data: { page: 1, total_subscriptions: 506, subscriptions: [ { ID: 3, URL: 'http://www.dragonfruit.com', feed_ID: 456 } ] },
+			data: { page: 1, total_subscriptions: 506, subscriptions: [ { ID: 345, URL: 'http://www.dragonfruit.com', feed_ID: 456 } ] },
 			error: null
 		} );
+
+		expect( FeedSubscriptionStore.getSubscriptionCount() ).to.eq( 506 );
 
 		// Follow
 		Dispatcher.handleViewAction( {
