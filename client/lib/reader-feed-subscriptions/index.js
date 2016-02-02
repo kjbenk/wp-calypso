@@ -218,7 +218,7 @@ function receiveFollowResponse( state, action ) {
 
 	if ( action.data && action.data.subscribed && ! action.data.info ) {
 		// The follow worked - discard any existing errors for this site
-		FeedSubscriptionStore.removeErrorsForSubscription( action.data.subscription );
+		state = removeErrorsForSiteUrl( state, action.data.URL );
 
 		// Remove the placeholder subscription and add the full subscription info
 		if ( action.data.subscription ) {
