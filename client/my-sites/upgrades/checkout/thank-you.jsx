@@ -202,7 +202,6 @@ var CheckoutThankYou = React.createClass( {
 				{ React.createElement( componentClass, {
 					selectedSite: selectedSite,
 					isFreeTrial: this.cartHasFreeTrial(),
-					locale: i18n.getLocaleSlug(),
 					domain: domain
 				} ) }
 			</div>
@@ -417,9 +416,9 @@ DomainMappingDetails = React.createClass( {
 			supportDoc;
 
 		if ( isSubdomain( this.props.domain ) ) {
-			supportDoc = 'https://' + this.props.locale + '.support.wordpress.com/domains/map-subdomain/';
+			supportDoc = 'https://support.wordpress.com/domains/map-subdomain/';
 		} else {
-			supportDoc = 'https://' + this.props.locale + '.support.wordpress.com/domains/map-existing-domain/';
+			supportDoc = 'https://support.wordpress.com/domains/map-existing-domain/';
 		}
 
 		if ( this.state.primaryDomain === this.props.domain ) {
